@@ -7,6 +7,7 @@ import com.rajat.mvvmFramework.model.Repo
 import com.rajat.mvvmFramework.network.ApiRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -39,16 +40,19 @@ class ListViewModel @Inject constructor(private val repoRepository: ApiRepositor
         disposable!!.add(
             repoRepository.getRepositories()?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribeWith(object : DisposableSingleObserver<List<Repo?>?>() {
+                ?.subscribeWith(object : DisposableObserver<List<Repo?>?>() {
 
                     override fun onError(e: Throwable) {
                         repoLoadError.value = true
                         loading.value = false
                     }
 
-                    override fun onSuccess(value: List<Repo?>?) {
+                    override fun onNext(value: List<Repo?>?) {
                         repoLoadError.value = false
                         repos.value = value as List<Repo>?
+                    }
+
+                    override fun onComplete() {
                         loading.value = false
                     }
                 })

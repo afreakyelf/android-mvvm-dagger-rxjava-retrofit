@@ -1,6 +1,7 @@
 package com.rajat.mvvmFramework.network
 
 import com.rajat.mvvmFramework.model.Repo
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 
@@ -10,5 +11,5 @@ import retrofit2.http.GET
 
 interface ApiServices {
     @GET("users/afreakyelf/repos")
-    fun getRepositories(): Single<List<Repo?>?>?
+    fun getRepositories(): Observable<List<Repo?>?>?
 }

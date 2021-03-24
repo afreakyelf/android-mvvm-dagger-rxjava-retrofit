@@ -1,6 +1,7 @@
 package com.rajat.mvvmFramework.network
 
 import com.rajat.mvvmFramework.model.Repo
+import io.reactivex.Observable
 import io.reactivex.Single
 
 import javax.inject.Inject
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 class ApiRepository @Inject constructor(private val repoService: ApiServices) {
 
-    fun getRepositories(): Single<List<Repo?>?>? {
+    fun getRepositories(): Observable<List<Repo?>?>? {
         return repoService.getRepositories()
     }
 
